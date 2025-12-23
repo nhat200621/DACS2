@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api";
+const API = "https://dacs2-405z.onrender.com";
 const problemsEl = document.getElementById("problems");
 const loadBtn = document.getElementById("load");
 const difficultySelect = document.getElementById("difficulty");
