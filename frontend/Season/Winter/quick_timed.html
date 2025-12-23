@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Time limit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="logo.jpg" type="image/png">
+
+  <style>
+    :root {
+      --primary: #00b4ff;
+      --neon-strong: #00e0ff;
+      --glass: rgba(255, 255, 255, 0.05);
+      --text-light: #e9f6ff;
+      --main-width: 650px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('night-snow.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #e9f6ff;
+      overflow-x: hidden;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .aurora {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: url("https://i.imgur.com/5VtN9hP.png");
+      background-size: cover;
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      animation: auroraMove 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraMove {
+      0% {
+        transform: translateX(-5%) translateY(-2%) scale(1.05);
+      }
+
+      100% {
+        transform: translateX(5%) translateY(2%) scale(1);
+      }
+    }
+
+    #snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -20px;
+      color: white;
+      font-size: 18px;
+      opacity: 0.95;
+      filter: drop-shadow(0 0 6px white);
+      animation: fall linear infinite, drift ease-in-out infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate(0, -20px) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(200px, 110vh) rotate(360deg);
+      }
+    }
+
+    @keyframes drift {
+      0% {
+        margin-left: 0px;
+      }
+
+      50% {
+        margin-left: 25px;
+      }
+
+      100% {
+        margin-left: 0px;
+      }
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--glass);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar button {
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--glass);
+      color: var(--text-light);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .navbar button:hover {
+      background: linear-gradient(90deg, var(--primary), rgba(0, 224, 255, 0.25));
+      color: #001219;
+      box-shadow: 0 8px 25px var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .main-box {
+      margin: 3rem auto;
+      padding: 2.5rem;
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      animation: fadeIn 1s ease;
+      width: var(--main-width);
+      max-width: 100%;
+      height: auto;
+      min-height: 320px;
+    }
+
+    h1,
+    h2 {
+      color: var(--neon-strong);
+      text-shadow: 0 6px 25px rgba(0, 224, 255, 0.4);
+    }
+
+    input[type="number"] {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
+      width: 60%;
+      text-align: center;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: var(--glass);
+      color: var(--text-light);
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, var(--primary), rgba(0, 224, 255, 0.25));
+      color: #001219;
+      box-shadow: 0 8px 25px var(--primary);
+      transform: translateY(-3px);
+    }
+
+    #result {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    #endModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #endModal .modal-content {
+      background: var(--glass);
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      width: 320px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: auto;
+      backdrop-filter: blur(6px);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="snow"></div>
+  <div class="navbar">
+    <button onclick="location.href='quick.html'">Return</button>
+    <button onclick="location.href='leaderboard.html'">Leaderboard</button>
+  </div>
+  <div class="main-box">
+    <h1>Time limit</h1>
+    <h2 id="timer">03:00</h2>
+    <h2 id="question">Loading...</h2>
+    <input id="answer" type="number" placeholder="Enter results">
+    <div>
+      <button id="submit" class="btn">Submit</button>
+    </div>
+    <h3 id="result"></h3>
+    <h3>Point: <span id="score">0</span></h3>
+  </div>
+  <div id="endModal">
+    <div class="modal-content">
+      <h2>Time's up!</h2>
+      <p>Điểm của bạn: <span id="finalScore"></span></p>
+      <input id="playerName" placeholder="Enter your name" style="padding:.5rem;width:100%;">
+      <button id="saveScore" class="btn" style="margin-top:1rem;">Save points</button>
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:5000/api/quick';
+    const LEADERBOARD_API = 'http://localhost:5000/api/quick/leaderboard';
+    let current = null;
+    let score = 0;
+    let timeLeft = 180;
+    let timerInterval;
+    let problems = [];
+    let timeUsed = 0;
+
+    async function loadQuestions() {
+      const res = await fetch(API);
+      problems = await res.json();
+      nextQuestion();
+      startTimer();
+    }
+
+    function nextQuestion() {
+      current = problems[Math.floor(Math.random() * problems.length)];
+      document.getElementById('question').textContent = current.question;
+      document.getElementById('answer').value = '';
+      document.getElementById('result').textContent = '';
+    }
+
+    function updateTimer() {
+      const min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+      const sec = String(timeLeft % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${min}:${sec}`;
+    }
+
+    function startTimer() {
+      updateTimer();
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timeUsed++;
+        updateTimer();
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function endGame() {
+      clearInterval(timerInterval);
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('endModal').style.display = 'flex';
+    }
+    document.getElementById('saveScore').addEventListener('click', async () => {
+      const name = document.getElementById('playerName').value.trim() || 'Users';
+      const playedAt = new Date().toISOString();
+      const res = await fetch(LEADERBOARD_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, score, playedAt })
+      });
+      const data = await res.json();
+      alert(data.message || '✅ Saved points!');
+      location.href = 'leaderboard.html';
+    });
+    document.getElementById('answer').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('submit').click();
+    });
+
+    document.getElementById('submit').addEventListener('click', () => {
+      const ans = Number(document.getElementById('answer').value);
+      const result = document.getElementById('result');
+      if (ans === current.answer) {
+        score += 10;
+        result.textContent = '✅ Exactly! +10 points';
+        result.style.color = 'green';
+      } else {
+        score = Math.max(0, score - 5);
+        result.textContent = `❌ Wrong! -5 points (Answer: ${current.answer})`;
+        result.style.color = 'red';
+      }
+      document.getElementById('score').textContent = score;
+      setTimeout(nextQuestion, 700);
+    });
+
+    loadQuestions();
+  </script>
+
+  <script>
+    function createSnow() {
+      const snowContainer = document.getElementById("snow");
+      const snow = document.createElement("div");
+      snow.classList.add("snowflake");
+      snow.innerHTML = "❄";
+
+      const size = Math.random() * 18 + 12;
+      const fallDuration = Math.random() * 4 + 4;
+      const driftDuration = Math.random() * 3 + 3;
+      const startLeft = Math.random() * window.innerWidth;
+
+      snow.style.left = startLeft + "px";
+      snow.style.fontSize = size + "px";
+      snow.style.opacity = (Math.random() * 0.5 + 0.5);
+      snow.style.animationDuration = `${fallDuration}s, ${driftDuration}s`;
+
+      snowContainer.appendChild(snow);
+      setTimeout(() => snow.remove(), fallDuration * 1000);
+    }
+
+    setInterval(createSnow, 90);
+  </script>
+
+  <footer>
+    &copy; 2025 Logic Training. All rights reserved.
+  </footer>
+</body>
+
+</body>
+
+</html>

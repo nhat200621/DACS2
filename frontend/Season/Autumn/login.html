@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login/ Register</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="logo.jpg" type="image/png" />
+
+    <style>
+      :root {
+        --primary: #d8871c;
+        --neon-strong: #ffb347;
+        --glass: rgba(255, 190, 120, 0.1);
+        --text-light: #fff3d6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: url("Autumn.png") no-repeat center center fixed;
+        background-size: cover;
+        color: var(--text-light);
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .aurora {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        background-size: cover;
+        opacity: 0.55;
+        mix-blend-mode: screen;
+        animation: auroraMove 14s ease-in-out infinite alternate;
+      }
+
+      @keyframes auroraMove {
+        0% {
+          transform: translateX(-5%) translateY(-2%) scale(1.05);
+        }
+
+        100% {
+          transform: translateX(5%) translateY(2%) scale(1);
+        }
+      }
+
+      #leaves {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 999;
+      }
+      .leaf {
+        position: absolute;
+        top: -12vh;
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.95;
+        transform-origin: center;
+        will-change: transform, opacity;
+        animation: fallSpin var(--fall-time, 10s) linear forwards;
+        animation-duration: var(--fall-time, 10s), var(--spin-time, 6s);
+        animation-delay: var(--delay, 0s);
+        animation-timing-function: linear, ease-in-out;
+        filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+        backface-visibility: hidden;
+      }
+
+      @keyframes fallSpin {
+        0% {
+          transform: translateY(-12vh) translateX(0)
+            rotate(var(--start-rot, 0deg));
+          opacity: var(--start-opacity, 0.95);
+        }
+        100% {
+          transform: translateY(120vh) translateX(var(--drift, 40px))
+            rotate(var(--end-rot, 360deg));
+          opacity: var(--end-opacity, 0.95);
+        }
+      }
+
+      .center-wrapper {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0 60px;
+      }
+
+      .auth-box {
+        width: 360px;
+        padding: 2rem;
+        border-radius: 20px;
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 6px 25px rgba(248, 156, 35, 0.5);
+        animation: fadeIn 0.7s ease;
+      }
+
+      .auth-box img {
+        width: 110px;
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 0 10px var(--primary));
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 16px rgba(248, 156, 35, 0.5);
+      }
+
+      input {
+        width: 90%;
+        padding: 0.7rem;
+        margin: 0.6rem 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.2s;
+      }
+
+      input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 12px rgba(248, 156, 35, 0.5);
+      }
+
+      button {
+        width: 90%;
+        margin-top: 0.8rem;
+        padding: 0.7rem;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        color: var(--text-light);
+        background: linear-gradient(90deg, var(--primary), var(--neon));
+        box-shadow: 0 8px 25px rgba(248, 156, 35, 0.5);
+        transition: 0.2s;
+      }
+
+      button:hover {
+        background: linear-gradient(90deg, var(--primary), #ffffff);
+        color: #001219;
+        box-shadow: 0 8px 25px rgba(248, 156, 35, 0.5);
+        transform: translateY(-3px);
+      }
+
+      a {
+        color: var(--neon);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      a:hover {
+        text-shadow: 0 0 10px var(--neon);
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: auto;
+        backdrop-filter: blur(5px);
+        z-index: 3;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="aurora"></div>
+    <div id="leaves"></div>
+
+    <div class="center-wrapper">
+      <div class="auth-box">
+        <h1>Login/Register</h1>
+
+        <input id="username" placeholder="Username" />
+        <input id="password" type="password" placeholder="Password" />
+
+        <button onclick="login()">Login</button>
+        <button onclick="register()">Register</button>
+        <button onclick="location.href='index.html'">Return Home</button>
+        <p id="msg"></p>
+      </div>
+    </div>
+
+    <footer>© 2025 Logic Training. All rights reserved.</footer>
+
+    <script>
+      const API = "http://localhost:5000/api/auth";
+
+      async function login() {
+        const user = username.value.trim();
+        const pass = password.value.trim();
+        const msg = document.getElementById("msg");
+
+        if (!user || !pass) {
+          msg.textContent = "⚠️ Please enter full information!";
+          msg.style.color = "red";
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: user, password: pass }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.user) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            msg.textContent = "✅ Login successful!";
+            msg.style.color = "lime";
+            setTimeout(() => (location.href = "index.html"), 800);
+          } else {
+            msg.textContent = data.message || "❌ Wrong account or password!";
+            msg.style.color = "red";
+          }
+        } catch {
+          msg.textContent = "❌ Unable to connect to server!";
+          msg.style.color = "red";
+        }
+      }
+
+      async function register() {
+        const user = username.value.trim();
+        const pass = password.value.trim();
+        const msg = document.getElementById("msg");
+
+        if (!user || !pass) {
+          msg.textContent = "⚠️ Please enter full information!";
+          msg.style.color = "red";
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: user, password: pass }),
+          });
+
+          const data = await res.json();
+          msg.textContent = data.message;
+          msg.style.color = res.ok ? "lime" : "red";
+        } catch {
+          msg.textContent = "❌ Không thể kết nối server!";
+          msg.style.color = "red";
+        }
+      }
+    </script>
+    <script>
+      const leafImages = [
+        "leaf1.png",
+        "leaf2.png",
+        "leaf3.png",
+        "leaf4.png",
+        "leaf5.png",
+      ];
+      const container = document.getElementById("leaves");
+      let running = true;
+      const maxInitial = 30;
+      const spawnIntervalMin = 300;
+      const spawnIntervalMax = 1200;
+      const spawnBatchMin = 1;
+      const spawnBatchMax = 3;
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+      function randInt(min, max) {
+        return Math.floor(rand(min, max + 1));
+      }
+
+      function createLeaf(delayOverride = null) {
+        const leaf = document.createElement("div");
+        leaf.className = "leaf";
+
+        const img = leafImages[Math.floor(Math.random() * leafImages.length)];
+        leaf.style.backgroundImage = `url('${img}')`;
+
+        const left = rand(0, 100);
+        leaf.style.left = `${left}vw`;
+
+        const size = rand(18, 60);
+        leaf.style.width = `${size}px`;
+        leaf.style.height = `${size}px`;
+
+        const fallTime = rand(6, 16);
+        const spinTime = rand(3, 8);
+        const delay = delayOverride !== null ? delayOverride : rand(0, 3);
+        const drift = rand(-60, 80);
+        const startRot = rand(-30, 60) + "deg";
+        const endRot = rand(180, 720) + "deg";
+        const startOpacity = rand(0.7, 1);
+        const endOpacity = rand(0.5, 0.95);
+
+        leaf.style.setProperty("--fall-time", `${fallTime}s`);
+        leaf.style.setProperty("--spin-time", `${spinTime}s`);
+        leaf.style.setProperty("--delay", `${delay}s`);
+        leaf.style.setProperty("--drift", `${drift}px`);
+        leaf.style.setProperty("--start-rot", startRot);
+        leaf.style.setProperty("--end-rot", endRot);
+        leaf.style.setProperty("--start-opacity", startOpacity);
+        leaf.style.setProperty("--end-opacity", endOpacity);
+
+        container.appendChild(leaf);
+        const totalMs = (fallTime + delay) * 1000 + 500;
+        setTimeout(() => {
+          leaf.remove();
+        }, totalMs);
+      }
+      function initialBurst(n) {
+        for (let i = 0; i < n; i++) {
+          setTimeout(() => createLeaf(), Math.random() * 1200);
+        }
+      }
+      let spawnTimer = null;
+      function startSpawning() {
+        if (spawnTimer) return;
+        running = true;
+        (function loop() {
+          const batch = randInt(spawnBatchMin, spawnBatchMax);
+          for (let i = 0; i < batch; i++) {
+            setTimeout(createLeaf, Math.random() * 600);
+          }
+          const next = rand(spawnIntervalMin, spawnIntervalMax);
+          spawnTimer = setTimeout(loop, next);
+        })();
+      }
+      function stopSpawning() {
+        running = false;
+        if (spawnTimer) {
+          clearTimeout(spawnTimer);
+          spawnTimer = null;
+        }
+      }
+      initialBurst(maxInitial);
+      startSpawning();
+    </script>
+  </body>
+</html>

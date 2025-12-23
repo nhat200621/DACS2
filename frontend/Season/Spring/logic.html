@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Logical thinking</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="logo.jpg" type="image/png" />
+    <style>
+      :root {
+        --primary: #ff9ccf;
+        --neon-strong: #ffb6d9;
+        --glass: rgba(255, 240, 245, 0.2);
+        --text-light: #ffe6f0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: url("Spring.png") no-repeat center center fixed;
+        background-size: cover;
+        color: #ffe6f0;
+        overflow-x: hidden;
+      }
+      footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.7);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: auto;
+        backdrop-filter: blur(6px);
+        position: relative;
+        z-index: 3;
+      }
+
+      .aurora {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        background: url("https://i.imgur.com/5VtN9hP.png");
+        background-size: cover;
+        opacity: 0.55;
+        mix-blend-mode: screen;
+        animation: auroraMove 14s ease-in-out infinite alternate;
+      }
+
+      @keyframes auroraMove {
+        0% {
+          transform: translateX(-5%) translateY(-2%) scale(1.05);
+        }
+        100% {
+          transform: translateX(5%) translateY(2%) scale(1);
+        }
+      }
+
+      #sakura-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 5;
+      }
+
+      .petal {
+        position: fixed;
+        top: -10vh;
+        pointer-events: none;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.9;
+        z-index: 20;
+        animation-name: fall, spin;
+        animation-timing-function: linear, ease-in-out;
+        animation-iteration-count: 1, infinite;
+        animation-fill-mode: forwards;
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(0) translateX(0);
+        }
+        100% {
+          transform: translateY(120vh) translateX(40px);
+        }
+      }
+      @keyframes spin {
+        0% {
+          rotate: 0deg;
+        }
+        50% {
+          rotate: 20deg;
+        }
+        100% {
+          rotate: -20deg;
+        }
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: var(--glass);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .navbar button {
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--glass);
+        color: var(--text-light);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .navbar button:hover {
+        background: linear-gradient(90deg, var(--primary), #ffffff);
+        color: #190019;
+        box-shadow: 0 8px 25px rgba(255, 156, 207, 0.5);
+        transform: translateY(-3px);
+      }
+
+      .main-box {
+        max-width: 700px;
+        margin: 3rem auto;
+        padding: 2.5rem;
+        background: var(--glass);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 156, 207, 0.5);
+        box-shadow: 0 6px 25px rgba(255, 156, 207, 0.5);
+        animation: fadeIn 1s ease;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: var(--neon-strong);
+        text-shadow: 0 6px 25px rgba(255, 156, 207, 0.5);
+      }
+
+      .question-list {
+        margin-top: 2rem;
+      }
+      .question-item {
+        background: var(--glass);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 156, 207, 0.5);
+        padding: 12px 18px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      .question-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 156, 207, 0.5);
+        background: rgba(248, 186, 218, 0.5);
+      }
+      .status {
+        font-size: 1.3rem;
+        width: 40px;
+        text-align: right;
+      }
+      .loading {
+        text-align: center;
+        color: #ffe6f0;
+        padding: 2rem 0;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sakura-container"></div>
+    <div class="navbar">
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='quick.html'">Quick calculation</button>
+      <button onclick="location.href='about.html'">About</button>
+    </div>
+    <div class="main-box">
+      <h1>List of logic exercises</h1>
+      <p style="text-align: center">Choose a sentence to start.</p>
+      <section class="question-list" id="questionList">
+        <div id="contentArea" class="loading">Loading...</div>
+      </section>
+    </div>
+
+    <script>
+      const API_PROBLEMS = "http://localhost:5000/api/problems";
+      const API_PROGRESS = "http://localhost:5000/api/problems/progress";
+      const user = JSON.parse(localStorage.getItem("user")) || {
+        username: "guest",
+      };
+      const contentArea = document.getElementById("contentArea");
+      let problems = [];
+      async function loadProblems() {
+        try {
+          const [problemsRes, progressRes] = await Promise.all([
+            fetch(API_PROBLEMS),
+            fetch(`${API_PROGRESS}/${user.username}`),
+          ]);
+          if (!problemsRes.ok || !progressRes.ok)
+            throw new Error("Lỗi tải dữ liệu từ server");
+          problems = await problemsRes.json();
+          const progress = await progressRes.json();
+          const progressMap = {};
+          progress.forEach((p) => (progressMap[p.problemId] = p.isCorrect));
+          renderList(progressMap);
+        } catch (err) {
+          console.error("❌ Lỗi tải dữ liệu:", err);
+          contentArea.innerHTML =
+            '<p style="color:red;">❌ Lỗi tải dữ liệu!</p>';
+        }
+      }
+      function renderList(progressMap) {
+        contentArea.innerHTML = "";
+        if (!problems.length) {
+          contentArea.innerHTML = "<p>⚠️ No questions yet.</p>";
+          return;
+        }
+        problems.forEach((q, index) => {
+          const div = document.createElement("div");
+          div.className = "question-item";
+          div.innerHTML = `
+          <span>${index + 1}. ${q.title}</span>
+          <span class="status">${
+            progressMap[q._id] === true
+              ? "✅"
+              : progressMap[q._id] === false
+              ? "❌"
+              : ""
+          }</span>
+        `;
+          div.onclick = () => {
+            localStorage.setItem("selectedProblem", JSON.stringify(q));
+            location.href = "logic_question.html";
+          };
+          contentArea.appendChild(div);
+        });
+      }
+      loadProblems();
+    </script>
+
+    <script>
+      const petalImages = [
+        "petal1.png",
+        "petal2.png",
+        "petal3.png",
+        "petal4.png",
+      ];
+      function createSinglePetal() {
+        const petal = document.createElement("div");
+        petal.className = "petal";
+        petal.style.backgroundImage = `url('${
+          petalImages[Math.floor(Math.random() * petalImages.length)]
+        }')`;
+        petal.style.left = Math.random() * 100 + "vw";
+        const size = 14 + Math.random() * 18;
+        petal.style.width = size + "px";
+        petal.style.height = size + "px";
+        const fallTime = Math.random() * 6 + 8;
+        const spinTime = Math.random() * 4 + 4;
+        petal.style.animationDuration = `${fallTime}s, ${spinTime}s`;
+        document.getElementById("sakura-container").appendChild(petal);
+        setTimeout(() => petal.remove(), fallTime * 2000 + 1000);
+      }
+      function createPetals(amount) {
+        for (let i = 0; i < amount; i++) {
+          setTimeout(createSinglePetal, Math.random() * 2000);
+        }
+      }
+      createPetals(40);
+      setInterval(() => {
+        createPetals(5);
+      }, 1500);
+    </script>
+    <footer>&copy; 2025 Logic Training. All rights reserved.</footer>
+  </body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Logical thinking</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="logo.jpg" type="image/png" />
+    <style>
+      :root {
+        --primary: #d8871c;
+        --neon-strong: #ffb347;
+        --glass: rgba(255, 190, 120, 0.1);
+        --text-light: #fff3d6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: url("Autumn.png") no-repeat center center fixed;
+        background-size: cover;
+        color: #e9f6ff;
+        overflow-x: hidden;
+      }
+      footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.7);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: auto;
+        backdrop-filter: blur(6px);
+        position: relative;
+        z-index: 3;
+      }
+
+      .aurora {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        background: url("https://i.imgur.com/5VtN9hP.png");
+        background-size: cover;
+        opacity: 0.55;
+        mix-blend-mode: screen;
+        animation: auroraMove 14s ease-in-out infinite alternate;
+      }
+
+      @keyframes auroraMove {
+        0% {
+          transform: translateX(-5%) translateY(-2%) scale(1.05);
+        }
+        100% {
+          transform: translateX(5%) translateY(2%) scale(1);
+        }
+      }
+
+      #leaves {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 999;
+      }
+      .leaf {
+        position: absolute;
+        top: -12vh;
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.95;
+        transform-origin: center;
+        will-change: transform, opacity;
+        animation: fallSpin var(--fall-time, 10s) linear forwards;
+        animation-duration: var(--fall-time, 10s), var(--spin-time, 6s);
+        animation-delay: var(--delay, 0s);
+        animation-timing-function: linear, ease-in-out;
+        filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+        backface-visibility: hidden;
+      }
+
+      @keyframes fallSpin {
+        0% {
+          transform: translateY(-12vh) translateX(0)
+            rotate(var(--start-rot, 0deg));
+          opacity: var(--start-opacity, 0.95);
+        }
+        100% {
+          transform: translateY(120vh) translateX(var(--drift, 40px))
+            rotate(var(--end-rot, 360deg));
+          opacity: var(--end-opacity, 0.95);
+        }
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: var(--glass);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .navbar button {
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--glass);
+        color: var(--text-light);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .navbar button:hover {
+        background: linear-gradient(90deg, var(--primary), #ffffff);
+        color: #001219;
+        box-shadow: 0 8px 25px rgba(248, 156, 35, 0.5);
+        transform: translateY(-3px);
+      }
+
+      .main-box {
+        max-width: 700px;
+        margin: 3rem auto;
+        padding: 2.5rem;
+        background: var(--glass);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 6px 25px rgba(248, 156, 35, 0.5);
+        animation: fadeIn 1s ease;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: var(--neon-strong);
+        text-shadow: 0 6px 25px rgba(248, 156, 35, 0.5);
+      }
+
+      .question-list {
+        margin-top: 2rem;
+      }
+      .question-item {
+        background: var(--glass);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 18px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(248, 156, 35, 0.5);
+      }
+      .question-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(248, 156, 35, 0.5);
+        background: rgba(0, 180, 255, 0.05);
+      }
+      .question-item p {
+        margin: 0 1rem 1rem;
+        color: #ffe6cf;
+      }
+      .status {
+        font-size: 1.3rem;
+        width: 40px;
+        text-align: right;
+      }
+      .loading {
+        text-align: center;
+        color: #ffe6cf;
+        padding: 2rem 0;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="leaves"></div>
+
+    <div class="navbar">
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='quick.html'">Quick calculation</button>
+      <button onclick="location.href='about.html'">About</button>
+    </div>
+
+    <div class="main-box">
+      <h1>List of logic exercises</h1>
+      <p style="text-align: center">Choose a sentence to start.</p>
+
+      <section class="question-list" id="questionList">
+        <div id="contentArea" class="loading">Loading...</div>
+      </section>
+    </div>
+
+    <script>
+      const API_PROBLEMS = "http://localhost:5000/api/problems";
+      const API_PROGRESS = "http://localhost:5000/api/problems/progress";
+      const user = JSON.parse(localStorage.getItem("user")) || {
+        username: "guest",
+      };
+
+      const contentArea = document.getElementById("contentArea");
+      let problems = [];
+
+      async function loadProblems() {
+        try {
+          const [problemsRes, progressRes] = await Promise.all([
+            fetch(API_PROBLEMS),
+            fetch(`${API_PROGRESS}/${user.username}`),
+          ]);
+
+          if (!problemsRes.ok || !progressRes.ok)
+            throw new Error("Lỗi tải dữ liệu từ server");
+
+          problems = await problemsRes.json();
+          const progress = await progressRes.json();
+
+          const progressMap = {};
+          progress.forEach((p) => (progressMap[p.problemId] = p.isCorrect));
+
+          renderList(progressMap);
+        } catch (err) {
+          console.error("❌ Lỗi tải dữ liệu:", err);
+          contentArea.innerHTML =
+            '<p style="color:red;">❌ Lỗi tải dữ liệu!</p>';
+        }
+      }
+
+      function renderList(progressMap) {
+        contentArea.innerHTML = "";
+        if (!problems.length) {
+          contentArea.innerHTML = "<p>⚠️ No questions yet.</p>";
+          return;
+        }
+
+        problems.forEach((q, index) => {
+          const div = document.createElement("div");
+          div.className = "question-item";
+          div.innerHTML = `
+          <span>${index + 1}. ${q.title}</span>
+          <span class="status">${
+            progressMap[q._id] === true
+              ? "✅"
+              : progressMap[q._id] === false
+              ? "❌"
+              : ""
+          }</span>
+        `;
+          div.onclick = () => {
+            localStorage.setItem("selectedProblem", JSON.stringify(q));
+            location.href = "logic_question.html";
+          };
+          contentArea.appendChild(div);
+        });
+      }
+
+      loadProblems();
+    </script>
+
+    <script>
+      const leafImages = [
+        "leaf1.png",
+        "leaf2.png",
+        "leaf3.png",
+        "leaf4.png",
+        "leaf5.png",
+      ];
+      const container = document.getElementById("leaves");
+      let running = true;
+      const maxInitial = 30;
+      const spawnIntervalMin = 300;
+      const spawnIntervalMax = 1200;
+      const spawnBatchMin = 1;
+      const spawnBatchMax = 3;
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+      function randInt(min, max) {
+        return Math.floor(rand(min, max + 1));
+      }
+
+      function createLeaf(delayOverride = null) {
+        const leaf = document.createElement("div");
+        leaf.className = "leaf";
+
+        const img = leafImages[Math.floor(Math.random() * leafImages.length)];
+        leaf.style.backgroundImage = `url('${img}')`;
+
+        const left = rand(0, 100);
+        leaf.style.left = `${left}vw`;
+
+        const size = rand(18, 60);
+        leaf.style.width = `${size}px`;
+        leaf.style.height = `${size}px`;
+
+        const fallTime = rand(6, 16);
+        const spinTime = rand(3, 8);
+        const delay = delayOverride !== null ? delayOverride : rand(0, 3);
+        const drift = rand(-60, 80);
+        const startRot = rand(-30, 60) + "deg";
+        const endRot = rand(180, 720) + "deg";
+        const startOpacity = rand(0.7, 1);
+        const endOpacity = rand(0.5, 0.95);
+
+        leaf.style.setProperty("--fall-time", `${fallTime}s`);
+        leaf.style.setProperty("--spin-time", `${spinTime}s`);
+        leaf.style.setProperty("--delay", `${delay}s`);
+        leaf.style.setProperty("--drift", `${drift}px`);
+        leaf.style.setProperty("--start-rot", startRot);
+        leaf.style.setProperty("--end-rot", endRot);
+        leaf.style.setProperty("--start-opacity", startOpacity);
+        leaf.style.setProperty("--end-opacity", endOpacity);
+
+        container.appendChild(leaf);
+        const totalMs = (fallTime + delay) * 1000 + 500;
+        setTimeout(() => {
+          leaf.remove();
+        }, totalMs);
+      }
+      function initialBurst(n) {
+        for (let i = 0; i < n; i++) {
+          setTimeout(() => createLeaf(), Math.random() * 1200);
+        }
+      }
+      let spawnTimer = null;
+      function startSpawning() {
+        if (spawnTimer) return;
+        running = true;
+        (function loop() {
+          const batch = randInt(spawnBatchMin, spawnBatchMax);
+          for (let i = 0; i < batch; i++) {
+            setTimeout(createLeaf, Math.random() * 600);
+          }
+          const next = rand(spawnIntervalMin, spawnIntervalMax);
+          spawnTimer = setTimeout(loop, next);
+        })();
+      }
+
+      function stopSpawning() {
+        running = false;
+        if (spawnTimer) {
+          clearTimeout(spawnTimer);
+          spawnTimer = null;
+        }
+      }
+      initialBurst(maxInitial);
+      startSpawning();
+    </script>
+
+    <footer>&copy; 2025 Logic Training. All rights reserved.</footer>
+  </body>
+</html>

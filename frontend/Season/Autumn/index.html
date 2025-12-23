@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="logo.jpg" type="image/png" />
+
+    <style>
+      :root {
+        --primary: #d8871c;
+        --neon-strong: #ffb347;
+        --glass: rgba(255, 190, 120, 0.1);
+        --text-light: #fff3d6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: url("Autumn.png") no-repeat center center fixed;
+        background-size: cover;
+        color: #e9f6ff;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .aurora {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        background: url("https://i.imgur.com/5VtN9hP.png");
+        background-size: cover;
+        opacity: 0.55;
+        mix-blend-mode: screen;
+        animation: auroraMove 14s ease-in-out infinite alternate;
+      }
+
+      @keyframes auroraMove {
+        0% {
+          transform: translateX(-5%) translateY(-2%) scale(1.05);
+        }
+        100% {
+          transform: translateX(5%) translateY(2%) scale(1);
+        }
+      }
+
+      #leaves {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 999;
+      }
+      .leaf {
+        position: absolute;
+        top: -12vh;
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.95;
+        transform-origin: center;
+        will-change: transform, opacity;
+        animation: fallSpin var(--fall-time, 10s) linear forwards;
+        animation-duration: var(--fall-time, 10s), var(--spin-time, 6s);
+        animation-delay: var(--delay, 0s);
+        animation-timing-function: linear, ease-in-out;
+        filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+        backface-visibility: hidden;
+      }
+
+      @keyframes fallSpin {
+        0% {
+          transform: translateY(-12vh) translateX(0)
+            rotate(var(--start-rot, 0deg));
+          opacity: var(--start-opacity, 0.95);
+        }
+        100% {
+          transform: translateY(120vh) translateX(var(--drift, 40px))
+            rotate(var(--end-rot, 360deg));
+          opacity: var(--end-opacity, 0.95);
+        }
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--glass);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .navbar button {
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--glass);
+        color: var(--text-light);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .navbar button:hover {
+        background: linear-gradient(90deg, var(--primary), #ffffff);
+        color: #001219;
+        box-shadow: 0 8px 25px rgba(248, 156, 35, 0.5);
+        transform: translateY(-3px);
+      }
+
+      .season-container {
+        display: flex;
+        gap: 2rem;
+        position: fixed;
+        top: 8px;
+        right: 20px;
+        z-index: 20;
+      }
+
+      .season-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.3s ease;
+        position: relative;
+        text-decoration: none;
+      }
+
+      .icon {
+        font-size: 30px;
+        color: white;
+        transition: 0.3s;
+      }
+
+      .season-btn.spring:hover .icon {
+        color: #ffc0cb;
+        filter: drop-shadow(0 0 12px #ffc0cb);
+      }
+      .season-btn.summer:hover .icon {
+        color: #ffe600;
+        filter: drop-shadow(0 0 12px #ffe600);
+      }
+      .season-btn.autumn:hover .icon {
+        color: #ff8c00;
+        filter: drop-shadow(0 0 12px #ff8c00);
+      }
+      .season-btn.winter:hover .icon {
+        color: #00c8ff;
+        filter: drop-shadow(0 0 12px #00c8ff);
+      }
+
+      /* MAIN */
+      .main {
+        flex: 1;
+        position: relative;
+        z-index: 3;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 5rem 1rem 3rem;
+      }
+      .hero h1 {
+        font-size: 2.8rem;
+        color: var(--neon-strong);
+        text-shadow: 0 6px 20px rgba(0, 180, 255, 0.5);
+      }
+      .hero p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        color: #ffe6cf;
+      }
+
+      .hero button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        border: none;
+        background: var(--primary);
+        color: #001219;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .hero button:hover {
+        box-shadow: 0 8px 25px var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+      }
+      .card {
+        background: var(--glass);
+        backdrop-filter: blur(6px);
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        transition: 0.2s;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+      }
+
+      .card h3 {
+        margin: 0.8rem 1rem 0.4rem;
+        color: var(--primary);
+      }
+
+      .card p {
+        margin: 0 1rem 1rem;
+        font-size: 0.95rem;
+        color: #ffe6cf;
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.7);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: auto;
+        backdrop-filter: blur(6px);
+        position: relative;
+        z-index: 3;
+      }
+
+      @media (max-width: 700px) {
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+        .hero p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="leaves"></div>
+
+    <div class="season-container">
+      <a href="../Spring/index.html" class="season-btn spring">
+        <span class="icon">✿</span>
+      </a>
+
+      <a href="../Summer/index.html" class="season-btn summer">
+        <span class="icon">☀</span>
+      </a>
+
+      <a href="../Autumn/index.html" class="season-btn autumn">
+        <span class="icon">❧</span>
+      </a>
+
+      <a href="../Winter/index.html" class="season-btn winter">
+        <span class="icon">❄</span>
+      </a>
+    </div>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const season = params.get("season");
+
+      if (season) {
+        const target = `../${season}/index.html`;
+
+        window.location.href = target;
+      }
+    </script>
+
+    <div class="navbar">
+      <button onclick="location.href='logic.html'">Logical Thinking</button>
+      <button onclick="location.href='quick.html'">Quick Calculation</button>
+      <button onclick="location.href='about.html'">About</button>
+      <button id="loginBtn">Log in</button>
+    </div>
+
+    <div class="main">
+      <section class="hero">
+        <h1>Logic Training</h1>
+        <p>
+          Learn logic and develop thinking quickly through interactive
+          exercises.
+        </p>
+        <button onclick="location.href='logic.html'">Get started now</button>
+      </section>
+
+      <section class="cards">
+        <div class="card">
+          <img src="h1.jpg" alt="Logical Thinking" />
+          <h3>Logical Thinking</h3>
+          <p>Practice logical thinking through challenging exercises.</p>
+        </div>
+
+        <div class="card">
+          <img src="h2.jpg" alt="Quick Calculation" />
+          <h3>Quick Calculation</h3>
+          <p>Improve the ability to calculate quickly and accurately.</p>
+        </div>
+
+        <div class="card">
+          <img src="h3.jpg" alt="Problem Solving" />
+          <h3>Problem Solving</h3>
+          <p>Creative logical and mathematical problem solving.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      &copy; 2025 Logic Training. All rights reserved. | Contact:
+      contact@logictraining.vn
+    </footer>
+
+    <script>
+      const user = JSON.parse(localStorage.getItem("user"));
+      const loginBtn = document.getElementById("loginBtn");
+
+      if (user) {
+        loginBtn.textContent = `Log out (${user.username})`;
+        loginBtn.onclick = () => {
+          localStorage.removeItem("user");
+          alert("Logged out!");
+          location.reload();
+        };
+      } else {
+        loginBtn.onclick = () => (location.href = "login.html");
+      }
+    </script>
+    <script>
+      const leafImages = [
+        "leaf1.png",
+        "leaf2.png",
+        "leaf3.png",
+        "leaf4.png",
+        "leaf5.png",
+      ];
+      const container = document.getElementById("leaves");
+      let running = true;
+      const maxInitial = 30;
+      const spawnIntervalMin = 300;
+      const spawnIntervalMax = 1200;
+      const spawnBatchMin = 1;
+      const spawnBatchMax = 3;
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+      function randInt(min, max) {
+        return Math.floor(rand(min, max + 1));
+      }
+
+      function createLeaf(delayOverride = null) {
+        const leaf = document.createElement("div");
+        leaf.className = "leaf";
+
+        const img = leafImages[Math.floor(Math.random() * leafImages.length)];
+        leaf.style.backgroundImage = `url('${img}')`;
+
+        const left = rand(0, 100);
+        leaf.style.left = `${left}vw`;
+
+        const size = rand(18, 60);
+        leaf.style.width = `${size}px`;
+        leaf.style.height = `${size}px`;
+
+        const fallTime = rand(6, 16);
+        const spinTime = rand(3, 8);
+        const delay = delayOverride !== null ? delayOverride : rand(0, 3);
+        const drift = rand(-60, 80);
+        const startRot = rand(-30, 60) + "deg";
+        const endRot = rand(180, 720) + "deg";
+        const startOpacity = rand(0.7, 1);
+        const endOpacity = rand(0.5, 0.95);
+
+        leaf.style.setProperty("--fall-time", `${fallTime}s`);
+        leaf.style.setProperty("--spin-time", `${spinTime}s`);
+        leaf.style.setProperty("--delay", `${delay}s`);
+        leaf.style.setProperty("--drift", `${drift}px`);
+        leaf.style.setProperty("--start-rot", startRot);
+        leaf.style.setProperty("--end-rot", endRot);
+        leaf.style.setProperty("--start-opacity", startOpacity);
+        leaf.style.setProperty("--end-opacity", endOpacity);
+
+        container.appendChild(leaf);
+        const totalMs = (fallTime + delay) * 1000 + 500;
+        setTimeout(() => {
+          leaf.remove();
+        }, totalMs);
+      }
+      function initialBurst(n) {
+        for (let i = 0; i < n; i++) {
+          setTimeout(() => createLeaf(), Math.random() * 1200);
+        }
+      }
+      let spawnTimer = null;
+      function startSpawning() {
+        if (spawnTimer) return;
+        running = true;
+        (function loop() {
+          const batch = randInt(spawnBatchMin, spawnBatchMax);
+          for (let i = 0; i < batch; i++) {
+            setTimeout(createLeaf, Math.random() * 600);
+          }
+          const next = rand(spawnIntervalMin, spawnIntervalMax);
+          spawnTimer = setTimeout(loop, next);
+        })();
+      }
+
+      function stopSpawning() {
+        running = false;
+        if (spawnTimer) {
+          clearTimeout(spawnTimer);
+          spawnTimer = null;
+        }
+      }
+      initialBurst(maxInitial);
+      startSpawning();
+    </script>
+  </body>
+</html>

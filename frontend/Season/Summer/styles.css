@@ -1,0 +1,7 @@
+body{font-family:system-ui,Segoe UI,Arial;margin:0;padding:0;background:#f7f7fb;color:#111}
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+#problems{padding:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}
+.card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.card h3{margin:0 0 .5rem}
+.card pre{white-space:pre-wrap;font-family:inherit}
+.btn{display:inline-block;padding:.4rem .6rem;border-radius:6px;border:1px solid #ddd;background:#f0f4ff;cursor:pointer}

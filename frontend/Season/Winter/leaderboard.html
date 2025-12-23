@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Leaderboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="logo.jpg" type="image/png">
+
+  <style>
+    :root {
+      --primary: #00b4ff;
+      --neon-strong: #00e0ff;
+      --glass: rgba(255, 255, 255, 0.05);
+      --text-light: #e9f6ff;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('night-snow.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #e9f6ff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .aurora {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: url("https://i.imgur.com/5VtN9hP.png");
+      background-size: cover;
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      animation: auroraMove 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraMove {
+      0% {
+        transform: translateX(-5%) translateY(-2%) scale(1.05);
+      }
+
+      100% {
+        transform: translateX(5%) translateY(2%) scale(1);
+      }
+    }
+
+    #snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -20px;
+      color: white;
+      font-size: 18px;
+      opacity: 0.95;
+      filter: drop-shadow(0 0 6px white);
+      animation: fall linear infinite, drift ease-in-out infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate(0, -20px) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(200px, 110vh) rotate(360deg);
+      }
+    }
+
+    @keyframes drift {
+      0% {
+        margin-left: 0px;
+      }
+
+      50% {
+        margin-left: 25px;
+      }
+
+      100% {
+        margin-left: 0px;
+      }
+    }
+
+    header {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--primary);
+      text-shadow: 0 0 12px rgba(0, 200, 255, 0.6);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--glass);
+      backdrop-filter: blur(6px);
+    }
+
+    .navbar button {
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--glass);
+      color: var(--text-light);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .navbar button:hover {
+      background: linear-gradient(90deg, var(--primary), rgba(0, 224, 255, 0.2));
+      color: #001219;
+      box-shadow: 0 8px 25px var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .board {
+      width: 80%;
+      max-width: 850px;
+      margin: 2.5rem auto;
+      background: var(--glass);
+      padding: 2rem;
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+      flex: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      table-layout: fixed;
+      text-align: center;
+    }
+
+    th,
+    td {
+      padding: 0.85rem 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 1.05rem;
+      color: #27a8ff;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.10);
+      color: #27a8ff;
+      font-weight: 600;
+    }
+
+
+    td:nth-child(1),
+    th:nth-child(1) {
+      width: 12%;
+    }
+
+    td:nth-child(2),
+    th:nth-child(2) {
+      width: 35%;
+    }
+
+    td:nth-child(3),
+    th:nth-child(3) {
+      width: 20%;
+    }
+
+    td:nth-child(4),
+    th:nth-child(4) {
+      width: 33%;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: auto;
+      backdrop-filter: blur(6px);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="snow"></div>
+
+  <header>
+    <h1>Leaderboard</h1>
+  </header>
+
+  <div class="navbar">
+    <button onclick="location.href='quick.html'">Return</button>
+  </div>
+
+  <div class="board">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Users</th>
+          <th>Point</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch('http://localhost:5000/api/quick/leaderboard')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById('table-body');
+        if (!data.length) {
+          tbody.innerHTML = `<tr><td colspan="4">Không có dữ liệu</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = data.map((p, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${p.username}</td>
+            <td>${p.score}</td>
+            <td>${new Date(p.createdAt).toLocaleString('vi-VN')}</td>
+          </tr>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('table-body').innerHTML =
+          `<tr><td colspan="4">❌ Lỗi tải dữ liệu</td></tr>`;
+      });
+  </script>
+
+  <script>
+    function createSnow() {
+      const snowContainer = document.getElementById("snow");
+      const snow = document.createElement("div");
+      snow.classList.add("snowflake");
+      snow.innerHTML = "❄";
+
+      const size = Math.random() * 18 + 12;
+      const fallDuration = Math.random() * 4 + 4;
+      const driftDuration = Math.random() * 3 + 3;
+      const startLeft = Math.random() * window.innerWidth;
+
+      snow.style.left = startLeft + "px";
+      snow.style.fontSize = size + "px";
+      snow.style.opacity = (Math.random() * 0.5 + 0.5);
+      snow.style.animationDuration = `${fallDuration}s, ${driftDuration}s`;
+
+      snowContainer.appendChild(snow);
+      setTimeout(() => snow.remove(), fallDuration * 1000);
+    }
+    setInterval(createSnow, 90);
+  </script>
+
+  <footer>
+    © 2025 Logic Training – All rights reserved.
+  </footer>
+
+</body>
+
+</html>

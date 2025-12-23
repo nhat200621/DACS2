@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Time limit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="logo.jpg" type="image/png">
+  <style>
+    :root {
+      --primary: #ff9ccf;
+      --neon-strong: #ffb6d9;
+      --glass: rgba(255, 240, 245, 0.2);
+      --text-light: #ffe6f0;
+      --main-width: 650px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('Spring.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #ffe6f0;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .aurora {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: url("https://i.imgur.com/5VtN9hP.png");
+      background-size: cover;
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      animation: auroraMove 14s ease-in-out infinite alternate;
+    }
+    @keyframes auroraMove {
+      0% {
+        transform: translateX(-5%) translateY(-2%) scale(1.05);
+      }
+      100% {
+        transform: translateX(5%) translateY(2%) scale(1);
+      }
+    }
+    #sakura-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 5;
+    }
+    .petal {
+      position: fixed;
+      top: -10vh;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.9;
+      z-index: 20;
+      animation-name: fall, spin;
+      animation-timing-function: linear, ease-in-out;
+      animation-iteration-count: 1, infinite;
+      animation-fill-mode: forwards;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+      100% {
+        transform: translateY(120vh) translateX(40px);
+      }
+    }
+    @keyframes spin {
+      0% {
+        rotate: 0deg;
+      }
+      50% {
+        rotate: 20deg;
+      }
+      100% {
+        rotate: -20deg;
+      }
+    }
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--glass);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .navbar button {
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--glass);
+      color: var(--text-light);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .navbar button:hover {
+      background: linear-gradient(90deg, var(--primary), #ffffff);
+      color: #190019;
+      box-shadow: 0 8px 25px rgba(255, 156, 207, 0.5);
+      transform: translateY(-3px);
+    }
+    .main-box {
+      margin: 3rem auto;
+      padding: 2.5rem;
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 156, 207, 0.5);
+      box-shadow: 0 6px 25px rgba(255, 156, 207, 0.5);
+      text-align: center;
+      animation: fadeIn 1s ease;
+      width: var(--main-width);
+      max-width: 100%;
+      height: auto;
+      min-height: 320px;
+    }
+    h1,
+    h2 {
+      color: var(--neon-strong);
+      text-shadow: 0 6px 25px rgba(255, 156, 207, 0.5);
+    }
+    input[type="number"] {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
+      width: 60%;
+      text-align: center;
+    }
+    .btn {
+      margin-top: 1rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: var(--glass);
+      color: var(--text-light);
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, var(--primary), #ffffff);
+      color: #001219;
+      box-shadow: 0 8px 25px var(--primary);
+      transform: translateY(-3px);
+    }
+    #result {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+    #endModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #endModal .modal-content {
+      background: var(--glass);
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      width: 320px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: auto;
+      backdrop-filter: blur(6px);
+    }
+  </style>
+</head>
+<body>
+  <div id="sakura-container"></div>
+  <div class="navbar">
+    <button onclick="location.href='quick.html'">Return</button>
+    <button onclick="location.href='leaderboard.html'">Leaderboard</button>
+  </div>
+  <div class="main-box">
+    <h1>Time limit</h1>
+    <h2 id="timer">03:00</h2>
+    <h2 id="question">Loading...</h2>
+    <input id="answer" type="number" placeholder="Enter results">
+    <div>
+      <button id="submit" class="btn">Submit</button>
+    </div>
+    <h3 id="result"></h3>
+    <h3>Point: <span id="score">0</span></h3>
+  </div>
+  <div id="endModal">
+    <div class="modal-content">
+      <h2>Time's up!</h2>
+      <p>Điểm của bạn: <span id="finalScore"></span></p>
+      <input id="playerName" placeholder="Enter your name" style="padding:.5rem;width:100%;">
+      <button id="saveScore" class="btn" style="margin-top:1rem;">Save points</button>
+    </div>
+  </div>
+  <script>
+    const API = 'http://localhost:5000/api/quick';
+    const LEADERBOARD_API = 'http://localhost:5000/api/quick/leaderboard';
+    let current = null;
+    let score = 0;
+    let timeLeft = 180;
+    let timerInterval;
+    let problems = [];
+    let timeUsed = 0;
+    async function loadQuestions() {
+      const res = await fetch(API);
+      problems = await res.json();
+      nextQuestion();
+      startTimer();
+    }
+    function nextQuestion() {
+      current = problems[Math.floor(Math.random() * problems.length)];
+      document.getElementById('question').textContent = current.question;
+      document.getElementById('answer').value = '';
+      document.getElementById('result').textContent = '';
+    }
+    function updateTimer() {
+      const min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+      const sec = String(timeLeft % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${min}:${sec}`;
+    }
+    function startTimer() {
+      updateTimer();
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timeUsed++;
+        updateTimer();
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+    function endGame() {
+      clearInterval(timerInterval);
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('endModal').style.display = 'flex';
+    }
+    document.getElementById('saveScore').addEventListener('click', async () => {
+      const name = document.getElementById('playerName').value.trim() || 'Users';
+      const playedAt = new Date().toISOString();
+      const res = await fetch(LEADERBOARD_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, score, playedAt })
+      });
+      const data = await res.json();
+      alert(data.message || '✅ Saved points!');
+      location.href = 'leaderboard.html';
+    });
+    document.getElementById('answer').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('submit').click();
+    });
+    document.getElementById('submit').addEventListener('click', () => {
+      const ans = Number(document.getElementById('answer').value);
+      const result = document.getElementById('result');
+      if (ans === current.answer) {
+        score += 10;
+        result.textContent = '✅ Exactly! +10 points';
+        result.style.color = 'green';
+      } else {
+        score = Math.max(0, score - 5);
+        result.textContent = `❌ Wrong! -5 points (Answer: ${current.answer})`;
+        result.style.color = 'red';
+      }
+      document.getElementById('score').textContent = score;
+      setTimeout(nextQuestion, 700);
+    });
+    loadQuestions();
+  </script>
+  <script>
+    const petalImages = ["petal1.png", "petal2.png", "petal3.png", "petal4.png"];
+    function createSinglePetal() {
+      const petal = document.createElement("div");
+      petal.className = "petal";
+      petal.style.backgroundImage =
+        `url('${petalImages[Math.floor(Math.random() * petalImages.length)]}')`;
+      petal.style.left = Math.random() * 100 + "vw";
+      const size = 14 + Math.random() * 18;
+      petal.style.width = size + "px";
+      petal.style.height = size + "px";
+      const fallTime = Math.random() * 6 + 8;
+      const spinTime = Math.random() * 4 + 4;
+      petal.style.animationDuration = `${fallTime}s, ${spinTime}s`;
+      document.getElementById("sakura-container").appendChild(petal);
+      setTimeout(() => petal.remove(), fallTime * 2000 + 1000);
+    }
+    function createPetals(amount) {
+      for (let i = 0; i < amount; i++) {
+        setTimeout(createSinglePetal, Math.random() * 2000);
+      }
+    }
+    createPetals(40);
+    setInterval(() => {
+      createPetals(5);
+    }, 1500);
+  </script>
+  <footer>
+    &copy; 2025 Logic Training. All rights reserved.
+  </footer>
+</body>
+</body>
+</html>
