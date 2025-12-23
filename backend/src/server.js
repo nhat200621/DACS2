@@ -11,7 +11,7 @@ const adminLogicRouter = require('./routes/adminLogic');
 const adminQuickRouter = require('./routes/adminQuick');
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/logic-training';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://lequocnhat43_db_user:nhat200621@cluster0.0hgziws.mongodb.net/logic-training?retryWrites=true&w=majority';
 const QuickLeaderboard = require('./models/QuickLeaderboard');
 const express = require('express');
 const quickLeaderboardRoutes = require('./routes/quickLeaderboardRoutes');
