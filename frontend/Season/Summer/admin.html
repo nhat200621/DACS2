@@ -110,9 +110,9 @@
   </div>
   <div id="adminContent"></div>
   <script>
-    const API_ADMIN = 'http://localhost:5000/api/admin';
-    const API_LOGIC = 'http://localhost:5000/api/admin/logic';
-    const API_QUICK = 'http://localhost:5000/api/admin/quick';
+    const API_ADMIN = 'https://dacs2-405z.onrender.com/api/admin';
+    const API_LOGIC = 'https://dacs2-405z.onrender.com/api/admin/logic';
+    const API_QUICK = 'https://dacs2-405z.onrender.com/api/admin/quick';
     async function showUsers() {
       const res = await fetch(`${API_ADMIN}/users`);
       const users = await res.json();
