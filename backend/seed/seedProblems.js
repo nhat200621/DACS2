@@ -3,7 +3,7 @@ const connectDB = require('../src/config/db');
 const Problem = require('../src/models/Problem');
 
 (async () => {
-  await connectDB(process.env.MONGO_URI || 'mongodb://localhost:27017/logic-training');
+  await connectDB(process.env.MONGO_URI || 'mongodb+srv://lequocnhat43_db_user:nhat200621@cluster0.0hgziws.mongodb.net/logic-training?retryWrites=true&w=majority');
   await Problem.deleteMany({});
 
   await Problem.create([
