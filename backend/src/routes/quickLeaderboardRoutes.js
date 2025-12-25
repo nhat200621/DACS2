@@ -18,7 +18,6 @@ router.post("/", async (req, res) => {
   try {
     const { username, score } = req.body;
 
-    // ✅ validate an toàn
     if (!username || typeof score !== "number") {
       return res.status(400).json({ message: "Dữ liệu không hợp lệ" });
     }
