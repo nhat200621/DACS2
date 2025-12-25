@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     const top = await QuickLeaderboard.find()
       .sort({ score: -1, createdAt: 1 })
       .limit(10);
+
     res.json(top);
   } catch (err) {
     console.error("❌ Lỗi GET leaderboard:", err);
@@ -18,14 +19,16 @@ router.post("/", async (req, res) => {
   try {
     let { username, score } = req.body;
 
-    score = Number(score);
-
-    if (isNaN(score)) {
-      return res.status(400).json({ message: "Score không hợp lệ" });
+    // ✅ BẮT BUỘC phải có username
+    if (!username) {
+      return res.status(400).json({
+        message: "❌ Thiếu username (chưa đăng nhập)",
+      });
     }
 
-    if (!username) {
-      username = `player_${Date.now()}`;
+    score = Number(score);
+    if (isNaN(score)) {
+      return res.status(400).json({ message: "❌ Score không hợp lệ" });
     }
 
     const existing = await QuickLeaderboard.findOne({ username });
@@ -34,16 +37,21 @@ router.post("/", async (req, res) => {
       if (score > existing.score) {
         existing.score = score;
         await existing.save();
+
         return res.json({ message: "🔁 Đã cập nhật điểm cao mới!" });
-      } else {
-        return res.json({
-          message: "✅ Điểm hiện tại thấp hơn, không cập nhật.",
-        });
       }
+
+      return res.json({
+        message: "✅ Điểm thấp hơn hoặc bằng, không cập nhật.",
+      });
     }
 
+    // ✅ Người chơi mới
     await QuickLeaderboard.create({ username, score });
-    res.json({ message: "✅ Đã thêm người chơi mới vào bảng xếp hạng!" });
+    res.json({
+      message: "✅ Đã thêm người chơi mới vào bảng xếp hạng!",
+    });
+
   } catch (err) {
     console.error("❌ Lỗi POST leaderboard:", err);
     res.status(500).json({ message: "Server error" });
