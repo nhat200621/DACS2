@@ -16,9 +16,16 @@ router.post("/", async (req, res) => {
   try {
     const { username, score } = req.body;
 
-    if (!username || score == null) {
-      return res.status(400).json({ message: "Thiếu dữ liệu!" });
-    }
+const filter = {};
+if (season) filter.season = season;
+if (mode) filter.mode = mode;
+
+const scores = await Score.find(filter)
+  .sort({ score: -1 })
+  .limit(20);
+
+return res.json(scores);
+
     const existing = await QuickLeaderboard.findOne({ username });
     if (existing) {
       if (score > existing.score) {
