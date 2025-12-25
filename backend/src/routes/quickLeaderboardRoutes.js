@@ -16,10 +16,16 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { username, score } = req.body;
+    let { username, score } = req.body;
 
-    if (!username || score == null) {
-      return res.status(400).json({ message: "Thiếu username hoặc score" });
+    score = Number(score);
+
+    if (isNaN(score)) {
+      return res.status(400).json({ message: "Score không hợp lệ" });
+    }
+
+    if (!username) {
+      username = `player_${Date.now()}`;
     }
 
     const existing = await QuickLeaderboard.findOne({ username });
@@ -43,6 +49,9 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+module.exports = router;
+
 
 module.exports = router;
 
