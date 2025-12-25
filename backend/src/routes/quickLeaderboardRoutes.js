@@ -16,10 +16,16 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { username, score } = req.body;
+    let { username, score } = req.body;
 
-    if (!username || typeof score !== "number") {
-      return res.status(400).json({ message: "Dữ liệu không hợp lệ" });
+    score = Number(score);
+
+    if (isNaN(score)) {
+      return res.status(400).json({ message: "Score không hợp lệ" });
+    }
+
+    if (!username) {
+      username = `player_${Date.now()}`;
     }
 
     const existing = await QuickLeaderboard.findOne({ username });
@@ -28,12 +34,16 @@ router.post("/", async (req, res) => {
       if (score > existing.score) {
         existing.score = score;
         await existing.save();
+        return res.json({ message: "🔁 Đã cập nhật điểm cao mới!" });
+      } else {
+        return res.json({
+          message: "✅ Điểm hiện tại thấp hơn, không cập nhật.",
+        });
       }
-      return res.json({ message: "OK" });
     }
 
     await QuickLeaderboard.create({ username, score });
-    res.json({ message: "OK" });
+    res.json({ message: "✅ Đã thêm người chơi mới vào bảng xếp hạng!" });
   } catch (err) {
     console.error("❌ Lỗi POST leaderboard:", err);
     res.status(500).json({ message: "Server error" });
@@ -41,4 +51,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
