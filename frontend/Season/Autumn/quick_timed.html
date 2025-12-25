@@ -307,21 +307,21 @@
         document.getElementById("endModal").style.display = "flex";
       }
 
-      document
-        .getElementById("saveScore")
-        .addEventListener("click", async () => {
-          const name =
-            document.getElementById("playerName").value.trim() || "Users";
-          const playedAt = new Date().toISOString();
-          const res = await fetch(LEADERBOARD_API, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, score, playedAt }),
-          });
-          const data = await res.json();
-          alert(data.message || "✅ Saved points!");
-          location.href = "leaderboard.html";
-        });
+      document.getElementById("saveScore").addEventListener("click", async () => {
+  const name = "Users";
+  const playedAt = new Date().toISOString();
+
+  const res = await fetch(LEADERBOARD_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, score, playedAt }),
+  });
+
+  const data = await res.json();
+  alert(data.message || "✅ Saved points!");
+  location.href = "leaderboard.html";
+});
+
 
       document.getElementById("answer").addEventListener("keypress", (e) => {
         if (e.key === "Enter") document.getElementById("submit").click();
