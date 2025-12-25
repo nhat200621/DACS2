@@ -16,16 +16,6 @@ router.post("/", async (req, res) => {
   try {
     const { username, score } = req.body;
 
-const filter = {};
-if (season) filter.season = season;
-if (mode) filter.mode = mode;
-
-const scores = await Score.find(filter)
-  .sort({ score: -1 })
-  .limit(20);
-
-return res.json(scores);
-
     const existing = await QuickLeaderboard.findOne({ username });
     if (existing) {
       if (score > existing.score) {
